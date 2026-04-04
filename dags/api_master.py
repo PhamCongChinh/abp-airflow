@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import requests
 
 def check_api_health():
-    url = "http://api-master:8000/health"  # sửa lại URL của bạn
+    url = "http://192.168.1.28:4420/api/v1/check/health"  # sửa lại URL của bạn
 
     res = requests.get(url, timeout=5)
 
