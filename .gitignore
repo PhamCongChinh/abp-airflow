@@ -1,1 +1,51 @@
-gitlogs/
+# ========================
+# Airflow
+# ========================
+
+# Logs
+logs/
+*.log
+
+# Airflow config (nếu không custom)
+config/
+
+# DAG compiled
+__pycache__/
+*.pyc
+*.pyo
+
+# Airflow DB (nếu dùng sqlite local)
+airflow.db
+
+# PID / temp
+*.pid
+*.out
+*.err
+
+# Plugins cache
+plugins/__pycache__/
+
+# ========================
+# Docker
+# ========================
+
+.env
+.env.*
+
+# Docker volumes (nếu bind local)
+airflow_pg_data/
+postgres-db-volume/
+
+# ========================
+# IDE
+# ========================
+
+.vscode/
+.idea/
+
+# ========================
+# OS
+# ========================
+
+.DS_Store
+Thumbs.db
