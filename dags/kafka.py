@@ -3,8 +3,6 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import requests
 
-from dags.utils.telegram_alert import task_fail_alert
-
 def check_health_kafka():
     url = "http://192.168.1.28:4420/api/v1/check/kafka"
 
@@ -37,5 +35,4 @@ with DAG(
     check_kafka = PythonOperator(
         task_id="check_health_kafka",
         python_callable=check_health_kafka,
-        on_failure_callback=task_fail_alert
     )
