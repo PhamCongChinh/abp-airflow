@@ -3,7 +3,7 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import requests
 
-def check_kafka_health():
+def check_health_kafka():
     url = "http://192.168.1.28:4420/api/v1/check/kafka"
 
     res = requests.get(url, timeout=5)
@@ -25,7 +25,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="check_api_master_health",
+    dag_id="dag_check_health_kafka",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
     schedule_interval="*/5 * * * *",  # mỗi 5 phút
@@ -33,6 +33,6 @@ with DAG(
 ) as dag:
 
     check_kafka = PythonOperator(
-        task_id="check_health_kafka",
-        python_callable=check_kafka_health
+        task_id="task_check_health_kafka",
+        python_callable=check_health_kafka
     )
