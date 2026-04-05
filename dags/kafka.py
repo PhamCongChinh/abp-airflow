@@ -25,7 +25,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="dag_check_health_kafka",
+    dag_id="check_kafka",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
     schedule_interval="*/5 * * * *",  # mỗi 5 phút
@@ -33,6 +33,6 @@ with DAG(
 ) as dag:
 
     check_kafka = PythonOperator(
-        task_id="task_check_health_kafka",
+        task_id="check_health_kafka",
         python_callable=check_health_kafka
     )

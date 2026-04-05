@@ -3,7 +3,7 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import requests
 
-def check_api_health():
+def check_health_api_master():
     url = "http://192.168.1.28:4420/api/v1/check/health"  # sửa lại URL của bạn
 
     res = requests.get(url, timeout=5)
@@ -27,7 +27,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="check_api_master_health",
+    dag_id="check_api_master",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
     schedule_interval="*/5 * * * *",  # mỗi 5 phút
@@ -35,6 +35,6 @@ with DAG(
 ) as dag:
 
     check_health = PythonOperator(
-        task_id="check_health_api",
-        python_callable=check_api_health,
+        task_id="check_health_api_master",
+        python_callable=check_health_api_master,
     )
