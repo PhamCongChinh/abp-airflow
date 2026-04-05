@@ -3,6 +3,8 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import requests
 
+from utils.telegram_alert import task_fail_alert
+
 def check_health_api_master():
     url = "http://192.168.1.28:4420/api/v1/check/health"  # sửa lại URL của bạn
 
@@ -22,7 +24,7 @@ def check_health_api_master():
 
 default_args = {
     "owner": "chinh",
-    "retries": 3,
+    "retries": 0,
     "retry_delay": timedelta(minutes=1),
 }
 
@@ -30,11 +32,12 @@ with DAG(
     dag_id="check_api_master",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
-    schedule_interval="*/5 * * * *",  # mỗi 5 phút
+    schedule_interval="*/10 * * * *",  # mỗi 5 phút
     catchup=False,
 ) as dag:
 
     check_health = PythonOperator(
         task_id="check_health_api_master",
         python_callable=check_health_api_master,
+        on_failure_callback=task_fail_alert
     )
