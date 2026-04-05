@@ -3,22 +3,20 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import requests
 
-def check_api_health():
-    url = "http://192.168.1.28:4420/api/v1/check/health"  # sửa lại URL của bạn
+def check_kafka_health():
+    url = "http://192.168.1.28:4420/api/v1/check/kafka"
 
     res = requests.get(url, timeout=5)
 
     if res.status_code != 200:
-        raise Exception(f"API lỗi status code: {res.status_code}")
+        raise Exception(f"KAFKA lỗi status code: {res.status_code}")
 
     data = res.json()
 
-    if data.get("status") != "OK":
-        raise Exception(f"API không OK: {data}")
+    if data.get("status") != "UP":
+        raise Exception(f"KAFKA không OK: {data}")
 
-    print("API OK")
-
-
+    print("KAFKA OK")
 
 default_args = {
     "owner": "chinh",
@@ -34,7 +32,7 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    check_health = PythonOperator(
-        task_id="check_health_api",
-        python_callable=check_api_health,
+    check_kafka = PythonOperator(
+        task_id="check_health_kafka",
+        python_callable=check_kafka_health
     )
