@@ -28,7 +28,7 @@ def check_kafka_health():
 
     data = res.json()
 
-    if data.get("status") != "OK":
+    if data.get("status") != "UP":
         raise Exception(f"KAFKA không OK: {data}")
 
     print("KAFKA OK")
