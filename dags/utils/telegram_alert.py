@@ -5,9 +5,6 @@ def send_telegram_alert(message):
     BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
     CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-    print(BOT_TOKEN)
-    print(CHAT_ID)
-
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
     requests.post(url, json={
