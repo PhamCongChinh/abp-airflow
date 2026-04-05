@@ -6,8 +6,11 @@ import requests
 
 
 def send_test_telegram():
-    BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-    CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+    # BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+    # CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+
+    BOT_TOKEN = ""
+    CHAT_ID = ""
 
     if not BOT_TOKEN or not CHAT_ID:
         raise Exception("Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID")
