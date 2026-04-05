@@ -13,7 +13,7 @@ def check_health_kafka():
 
     data = res.json()
 
-    if data.get("status") != "OK":
+    if data.get("status") != "UP":
         raise Exception(f"KAFKA không OK: {data}")
 
     print("KAFKA OK")
@@ -28,7 +28,7 @@ with DAG(
     dag_id="check_kafka",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
-    schedule_interval="*/2 * * * *",  # mỗi 5 phút
+    schedule_interval="*/5 * * * *",  # mỗi 5 phút
     catchup=False,
 ) as dag:
 
