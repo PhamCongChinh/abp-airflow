@@ -27,7 +27,7 @@ def check_health_server():
         if ram > 90:
             alerts.append(f"RAM cao: {ram}%")
 
-        if disk > 90:
+        if disk > 95:
             alerts.append(f"DISK đầy: {disk}%")
 
         if alerts:
@@ -49,7 +49,7 @@ with DAG(
     dag_id="check_health_server",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
-    schedule_interval="*/1 * * * *",  # mỗi 5 phút
+    schedule_interval="*/5 * * * *",  # mỗi 5 phút
     catchup=False,
 ) as dag:
 
