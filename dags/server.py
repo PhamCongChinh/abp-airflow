@@ -31,7 +31,7 @@ def check_health_server():
             alerts.append(f"DISK đầy: {disk}%")
 
         if alerts:
-            msg = "🚨 SERVER ALERT 🚨\n" + "\n".join(alerts)
+            msg = "🚨 [TEST] SERVER ALERT 🚨\n" + "\n".join(alerts)
             send_telegram_alert(msg)
             raise Exception(msg)
 
