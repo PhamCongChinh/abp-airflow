@@ -45,7 +45,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="live_check_api_master",
+    dag_id="check_health_server",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
     schedule_interval="*/1 * * * *",  # mỗi 5 phút
@@ -53,6 +53,6 @@ with DAG(
 ) as dag:
 
     check_health = PythonOperator(
-        task_id="live_check_health_api_master",
+        task_id="check_health_server",
         python_callable=check_health_server,
     )
