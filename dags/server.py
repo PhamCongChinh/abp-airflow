@@ -7,7 +7,7 @@ from utils.telegram_alert import task_fail_alert
 from utils.telegram_alert import send_telegram_alert
 
 def check_health_server():
-    url = "http://103.97.125.64:4416/api/v1/check/server"
+    url = "http://192.128.1.28:4420/api/v1/check/server"
     try:
         res = requests.get(url, timeout=5)
 
