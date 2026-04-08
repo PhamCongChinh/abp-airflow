@@ -8,7 +8,7 @@ from utils.telegram_alert import send_telegram_alert
 
 def check_bot_health():
 
-    url = f"http://192.168.1.28/api/v1/check/bot-health"
+    url = f"http://192.168.1.28:4420/api/v1/check/bot-health"
     res = requests.get(url, timeout=5)
 
     data = res.json()
