@@ -1,0 +1,37 @@
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime, timedelta
+import requests
+
+from utils.telegram_alert import task_fail_alert
+from utils.telegram_alert import send_telegram_alert
+
+def check_bot_health():
+    import requests
+
+    res = requests.get("http://192.168.1.28/api/v1/check/bot-health").json()
+
+    dead = [b for b in res if b["status"] == "dead"]
+    warning = [b for b in res if b["status"] == "warning"]
+
+    if dead or warning:
+        raise Exception(f"Dead: {dead}, Warning: {warning}")
+    
+default_args = {
+    "owner": "chinh",
+    "retries": 0,
+    "retry_delay": timedelta(minutes=1),
+}
+
+with DAG(
+    dag_id="check_bot_health",
+    default_args=default_args,
+    start_date=datetime(2026, 1, 1),
+    schedule_interval="*/2 * * * *",  # mỗi 5 phút
+    catchup=False,
+) as dag:
+
+    check_health = PythonOperator(
+        task_id="check_bot_health",
+        python_callable=check_bot_health,
+    )
