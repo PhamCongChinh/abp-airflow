@@ -13,10 +13,15 @@ def check_bot_health():
 
     data = res.json()
 
+    print(data)
+
     dead = [b for b in data if b["status"] == "dead"]
     warning = [b for b in data if b["status"] == "warning"]
 
     msg_lines = []
+
+    print(dead)
+    print(warning)
 
     if dead:
         msg_lines.append("🚨 BOT DEAD:")
@@ -31,6 +36,8 @@ def check_bot_health():
             msg_lines.append(
                 f"- {b.get('bot_name')} ({b.get('bot_id')}) | {b.get('bot_type')}"
             )
+
+    print(msg_lines)
 
     if msg_lines:
         msg = "\n".join(msg_lines)
