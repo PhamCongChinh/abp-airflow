@@ -14,8 +14,28 @@ def check_bot_health():
     dead = [b for b in res if b["status"] == "dead"]
     warning = [b for b in res if b["status"] == "warning"]
 
-    if dead or warning:
-        raise Exception(f"Dead: {dead}, Warning: {warning}")
+    msg_lines = []
+
+    if dead:
+        msg_lines.append("🚨 BOT DEAD:")
+        for b in dead:
+            msg_lines.append(
+                f"- {b.get('bot_name')} ({b.get('bot_id')}) | {b.get('bot_type')}"
+            )
+
+    if warning:
+        msg_lines.append("\n⚠️ BOT WARNING:")
+        for b in warning:
+            msg_lines.append(
+                f"- {b.get('bot_name')} ({b.get('bot_id')}) | {b.get('bot_type')}"
+            )
+
+    if msg_lines:
+        msg = "\n".join(msg_lines)
+
+        send_telegram_alert(msg)
+
+        raise Exception(msg)  # để Airflow fail
     
 default_args = {
     "owner": "chinh",
@@ -27,11 +47,12 @@ with DAG(
     dag_id="check_bot_health",
     default_args=default_args,
     start_date=datetime(2026, 1, 1),
-    schedule_interval="*/2 * * * *",  # mỗi 5 phút
+    schedule_interval="*/1 * * * *",  # mỗi 5 phút
     catchup=False,
 ) as dag:
 
     check_health = PythonOperator(
         task_id="check_bot_health",
         python_callable=check_bot_health,
+        # on_failure_callback=task_fail_alert
     )
