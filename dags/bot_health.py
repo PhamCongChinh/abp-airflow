@@ -7,12 +7,14 @@ from utils.telegram_alert import task_fail_alert
 from utils.telegram_alert import send_telegram_alert
 
 def check_bot_health():
-    import requests
 
-    res = requests.get("http://192.168.1.28/api/v1/check/bot-health").json()
+    url = f"http://192.168.1.28/api/v1/check/bot-health"
+    res = requests.get(url, timeout=5)
 
-    dead = [b for b in res if b["status"] == "dead"]
-    warning = [b for b in res if b["status"] == "warning"]
+    data = res.json()
+
+    dead = [b for b in data if b["status"] == "dead"]
+    warning = [b for b in data if b["status"] == "warning"]
 
     msg_lines = []
 
@@ -53,6 +55,5 @@ with DAG(
 
     check_health = PythonOperator(
         task_id="check_bot_health",
-        python_callable=check_bot_health,
-        # on_failure_callback=task_fail_alert
+        python_callable=check_bot_health
     )
